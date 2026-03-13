@@ -1,15 +1,18 @@
 import mongoose from "mongoose";
 
 const cartSchema=new mongoose.Schema({
-    userId:{type:String,required:true},
-    productData:{
+    userId:{type:mongoose.Schema.Types.ObjectId,
+        ref:'User',
+        required:true},
+    variant:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:'Product'
+        ref:'Variant',
+        required:true
     },
-    image:{type:String,required:true},
-    size:{type:String},
-    color:{type:String},
-    price:{type:Number,required:true}
+    quantity:{
+        type:Number,
+        min:1
+    }
 },{timestamps:true})
 const cartModel=mongoose.models.cart || mongoose.model('cart',cartSchema)
 export default cartModel

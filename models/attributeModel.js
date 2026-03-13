@@ -4,7 +4,8 @@ const attributeSchema=new mongoose.Schema({
     name:{type:String,required:true},
     inputType:{
         type:String,
-        enum:["TEXT","NUMBER"]
+        enum:["VISUAL","SELLABLE"],
+        default:"SELLABLE"
     }
 })
 const attributeModel=mongoose.models.Attribute || mongoose.model('Attribute',attributeSchema)

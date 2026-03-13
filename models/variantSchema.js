@@ -14,7 +14,7 @@ const variantSchema=new mongoose.Schema({
             required:true
         }
     }],
-    images:{type:String,required:true},
+    images:[{type:String}],
     price:{type:Number,required:true},
     stock:{type:Number,required:true,min:0},
     status:{

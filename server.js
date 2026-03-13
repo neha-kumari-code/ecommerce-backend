@@ -6,7 +6,7 @@ import cors from 'cors'
 import userRouter from './routes/userRoutes.js'
 import adminRouter from './routes/adminRoute.js'
 const app=express()
-const port= process.env.PORT | 4000
+const port= process.env.PORT | 3000
 connectDB()
 connectCloudinary()
 app.use(express.json())
