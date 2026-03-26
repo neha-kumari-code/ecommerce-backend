@@ -8,7 +8,7 @@ import upload from '../config/multer.js'
 const adminRouter=express.Router()
 adminRouter.post('/login',adminLogin)
 adminRouter.post('/create-category',adminAuth,createCategory)
-adminRouter.get('/get-category',adminAuth,getAllCategory)
+adminRouter.get('/get-category',getAllCategory)
 adminRouter.post('/create-attribute',adminAuth,createAttribute)
 adminRouter.get('/get-attribute',adminAuth,getAllAttribute)
 adminRouter.post('/set-attributeValue',adminAuth,addAttributeValues)

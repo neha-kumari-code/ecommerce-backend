@@ -197,7 +197,7 @@ const createCategory = async (req, res) => {
 
 const getAllCategory=async(req,res)=>{
     try {
-        const categories=await categoryModel.find({}).select("-parentCategory -status");
+        const categories=await categoryModel.find({});
         return res.json({
             success:true,
             categories
@@ -376,12 +376,14 @@ const createVariant=async(req,res)=>{
                     value:a.value
                 })
             })
-            const images=[]
-            imgFiles.forEach((img,i)=>{
-                if(img.fieldname===`variants[${idx}][images]`){
-                    images.push(img.path)
-                }
-            })
+            const images=[];
+            const files=imgFiles.filter(file=>file.fieldname===`variants[${idx}][images]`);
+            for(let file of files){
+                const result=await cloudinary.uploader.upload(file.path,{
+                    folder:"products"
+                })
+                images.push(result.secure_url)
+            }
             const detail={
                 attributes,
                 images,
@@ -408,7 +410,19 @@ const createVariant=async(req,res)=>{
 }
 const listItem=async(req,res)=>{
     try {
-        const allProducts=await productModel.find({}).populate('variants').populate('category')
+        const allProducts=await productModel.find({}).populate({
+            path:'variants',
+            populate:[
+                {
+                    path:'attributes.attribute',
+                    model:'Attribute'
+                },
+                {
+                   path:'attributes.value',
+                    model:'AttributeValue' 
+                }
+            ]
+        }).populate('category')
         return res.json({
             success:true,
             allProducts
