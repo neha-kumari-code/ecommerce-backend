@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken'
 import userModel from '../models/UserModel.js'
 import productModel from '../models/productModel.js'
 import cartModel from '../models/cartModel.js'
+import variantModel from '../models/variantSchema.js'
 // to create account
 const registerUser=async(req,res)=>{
     try {
@@ -151,4 +152,33 @@ const getMyCart=async(req,res)=>{
         })
     }
 }
-export {registerUser,loginUser,addToCart,getMyCart} 
+// get product detail of particular id
+const productDetail=async(req,res)=>{
+    try {
+        const {id}=req.params;
+        // get that variant from variants
+        const vari=await variantModel.findById(id).select('product')
+        const productId=vari.product._id;
+        const detail=await variantModel.find({product:productId}).populate({
+            path:'attributes',
+            populate:[{
+                path:'attribute',
+                model:'Attribute'
+            },{
+                path:'value',
+                model:'AttributeValue'
+            }]
+        }).populate('product')
+       return res.json({
+        success:true,
+        detail
+       })
+    } catch (error) {
+        console.log(error);
+        return res.json({
+            success:false,
+            message:error.message
+        })
+    }
+}
+export {registerUser,loginUser,addToCart,getMyCart,productDetail} 

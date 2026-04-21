@@ -69,36 +69,6 @@ const addProduct=async(req,res)=>{
         })
     }
 }
-const createVariants = async (req, res) => {
-    try {
-        const { name, description, deliveredAt, price, status, quantity, sizes } = req.body
-        const imageFile = req.file
-        const uploadedImg = await cloudinary.uploader.upload(imageFile.path, { resource_type: 'image' })
-        const sizeArray = sizes.split(',')
-        const productDetail = {
-            name,
-            description,
-            deliveredAt,
-            price,
-            status,
-            quantity,
-            image: uploadedImg.secure_url,
-            size: sizeArray
-        }
-        const newProduct = new productModel(productDetail);
-        const product = await newProduct.save();
-        return res.json({
-            success: true,
-            message: 'product added'
-        })
-    } catch (error) {
-        console.log(error)
-        return res.json({
-            success: false,
-            message: error.message
-        })
-    }
-}
 
 // delete product api
 const deleteProduct = async (req, res) => {

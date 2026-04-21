@@ -14,7 +14,6 @@ const variantSchema=new mongoose.Schema({
             required:true
         }
     }],
-    images:[{type:String}],
     price:{type:Number,required:true},
     stock:{type:Number,required:true,min:0},
     status:{
@@ -24,7 +23,7 @@ const variantSchema=new mongoose.Schema({
     },
     product:{
   type: mongoose.Schema.Types.ObjectId,
-  ref:'Product',
+  ref:'product',
   required:true
 }
     
